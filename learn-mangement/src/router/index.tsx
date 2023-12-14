@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import Home from "@/views/Home";
 // import About from "@/views/About";
+import Login from "@/views/Login";
 import { Navigate } from "react-router-dom";
 
 const withLoadingComponent = (comp: JSX.Element) => (
@@ -35,6 +36,10 @@ const routes = [
                 element: withLoadingComponent(<About />)
             }
         ],
+    },
+    {
+        path: "/Login",
+        element: <Login />    //进去就看到登录页面 不需要懒加载
     },
     {
         path: "*",

@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -27,10 +27,10 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Option 1', 'Page1', <PieChartOutlined />),
-  getItem('Option 2', 'Page2', <DesktopOutlined />),
-  getItem('User', 'Page3', <UserOutlined />, [
-    getItem('Tom', 'Page3/Tom'),
+  getItem('Option 1', '/Page1', <PieChartOutlined />),
+  getItem('Option 2', '/Page2', <DesktopOutlined />),
+  getItem('User', '/Page3', <UserOutlined />, [
+    getItem('Tom', '/Page3/Tom'),
     getItem('Bill', '4'),
     getItem('Alex', '5'),
   ]),
@@ -41,28 +41,40 @@ const items: MenuItem[] = [
 
 
 const Comp: React.FC = () => {
-  const [openKeys, setOpenKeys] = useState(['']);
+  let firstOpenKeys: string = '';
+  const currentRoute = useLocation()
   const navigateTo = useNavigate()
 
+  function findKey(obj:{key:string}) {
+    return obj.key === currentRoute.pathname
+  }
+
+  for(let i=0;i<items.length;i++){
+    if(items[i]!['children'] && items[i]!['children'].length>0 && items[i]!['children'].find(findKey)){
+      firstOpenKeys = items[i]!.key
+      break
+    }
+  }
+
+  const [openKeys, setOpenKeys] = useState([firstOpenKeys]);
+
   const menuClick = (e: { key: string }) => {
-    console.log('hhh', e.key);
     navigateTo(e.key)
   }
-  const onOpenChange=(keys:string[])=>{ 
-    setOpenKeys([keys[keys.length-1]]) 
+  const onOpenChange = (keys: string[]) => {
+    setOpenKeys([keys[keys.length - 1]])
   }
 
-
-  return(
+  return (
     <Menu
-          theme="dark"
-          defaultSelectedKeys={['Page1']}
-          mode="inline"
-          items={items}
-          onClick={menuClick}
-          onOpenChange={onOpenChange}
-          openKeys={openKeys}
-        />
+      theme="dark"
+      defaultSelectedKeys={[currentRoute.pathname]}
+      mode="inline"
+      items={items}
+      onClick={menuClick}
+      onOpenChange={onOpenChange}
+      openKeys={openKeys}
+    />
   )
 }
 
