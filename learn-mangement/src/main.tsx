@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from ""
 //样式初始化一般放在最前面
 import "reset-css";
 //UI框架的样式
@@ -14,7 +15,9 @@ import { BrowserRouter } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
     <BrowserRouter>
-      <App />
+    <Provider>
+    <App />
+    </Provider>
     </BrowserRouter>
   // </React.StrictMode>
 );
