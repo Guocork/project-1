@@ -3,8 +3,10 @@ import styles from './Login.module.scss'
 import initLoginBg from './init.ts'
 import { Input, Space, Button } from 'antd';
 import './Login.less'
+import { useNavigate } from 'react-router-dom'
 
 
+ 
 const View = () => {
     useEffect(() => {
         initLoginBg()
@@ -14,6 +16,9 @@ const View = () => {
     const [usernameValue,setUsernameValue] =useState('')
     const [passwordValue,setPasswordValue] =useState('')
     const [captcahValue,setCaptchaValue] =useState('')
+
+  const navigateTo = useNavigate()
+
 
     const changeuserName=(e:ChangeEvent<HTMLInputElement>)=>{
         setUsernameValue(e.target.value)
@@ -27,6 +32,11 @@ const View = () => {
 
     function goLogin(){
         console.log('登录了',usernameValue,passwordValue,captcahValue);
+        if(!usernameValue.trim() || !passwordValue.trim() || !captcahValue.trim()){
+            alert('不能为空')
+            return
+        }
+        navigateTo('/')
     }
     return (
         <div className={styles.loginPage}>
