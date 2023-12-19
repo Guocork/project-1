@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import styles from './Login.module.scss'
 import initLoginBg from './init.ts'
-import { Input, Space, Button } from 'antd';
+import { Input, Space, Button,message } from 'antd';
 import './Login.less'
 import { useNavigate } from 'react-router-dom'
 
@@ -33,7 +33,7 @@ const View = () => {
     function goLogin(){
         console.log('登录了',usernameValue,passwordValue,captcahValue);
         if(!usernameValue.trim() || !passwordValue.trim() || !captcahValue.trim()){
-            alert('不能为空')
+            message.warning('不能为空')
             return
         }
         navigateTo('/')
